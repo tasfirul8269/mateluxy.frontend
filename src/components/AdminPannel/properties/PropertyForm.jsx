@@ -46,7 +46,7 @@ const basePropertySchema = {
   propertyBathrooms: z.coerce.number().positive("Number of bathrooms must be positive"),
   
   dldPermitNumber: z.string().min(1, "DLD permit number is required"),
-  agent: z.string().min(1, "Agent is required"),
+  // agent: z.string().min(1, "Agent is required"),
   dldQrCode: z.string().min(1, "DLD QR code is required"),
   
   latitude: z.coerce.number().refine(val => val !== 0, "Invalid coordinates"), 
@@ -141,7 +141,7 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
       propertyKitchen: 0,
       propertyBathrooms: 0,
       dldPermitNumber: "",
-      agent: "",
+      // agent: "",
       dldQrCode: "",
       latitude: 0,
       longitude: 0,
@@ -521,7 +521,7 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
               )}
             />
             
-            <FormField
+            {/* <FormField
               control={form.control}
               name="agent"
               render={({ field }) => (
@@ -544,7 +544,7 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
