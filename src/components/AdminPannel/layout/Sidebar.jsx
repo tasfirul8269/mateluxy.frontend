@@ -62,12 +62,12 @@ export function Sidebar() {
             transition={{ duration: 0.3 }}
             className="flex justify-center items-center"
           >
-            <img className="w-24" src={logo} alt="LOGO" />
+            <img className="w-15" src={logo} alt="LOGO" />
             <div className="ml-2">
-              <h3 className="text-2xl font-bold tracking-tight text-[#000000]">
+              <h3 className="text-[18px] font-bold tracking-tight text-[#000000]">
                 MATELUXY
               </h3>
-              <p className="text-lg uppercase tracking-widest text-black">
+              <p className="text-[13px] uppercase tracking-widest text-black">
                 REAL ESTATE
               </p>
             </div>
@@ -83,7 +83,7 @@ export function Sidebar() {
               alt="MateLuxy Logo"
               className="h-8 w-auto" // Adjust height/width as needed
             >
-              EC
+        
             </motion.img>
           )}
         </AnimatePresence>
