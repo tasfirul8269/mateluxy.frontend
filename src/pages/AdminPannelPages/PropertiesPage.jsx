@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/AdminPannel/ui/popover";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/components/AdminPannel/ui/label";
 import {
   Select,
   SelectContent,
@@ -27,6 +27,7 @@ import { Slider } from "@/components/AdminPannel/ui/slider";
 import { PropertyFormDialog } from "@/components/properties/PropertyFormDialog";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi } from "@/services/api";
+
 
 // Categories for the filter tabs
 const CATEGORIES = ["All", "Rent", "Buy", "Off Plan", "Commercial for Rent", "Commercial for Buy"];
