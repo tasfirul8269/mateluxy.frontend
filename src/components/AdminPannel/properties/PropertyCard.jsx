@@ -35,7 +35,7 @@ export function PropertyCard({ property }) {
       <div className="p-4">
         <h3 className="font-semibold text-lg text-gray-800 mb-1 truncate">{property.title}</h3>
         <p className="text-gray-500 text-sm mb-3 truncate">{property.address}</p>
-        <p className="font-bold text-blue-600 mb-3">{property.price}</p>
+        <p className="font-bold text-red mb-3">{property.price}</p>
         
         <div className="flex items-center justify-between text-sm text-gray-500">
           <div className="flex items-center">

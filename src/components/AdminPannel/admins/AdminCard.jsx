@@ -12,7 +12,7 @@ export function AdminCard({ admin }) {
             className="w-14 h-14 rounded-full object-cover"
           />
           <div className="absolute -bottom-1 -right-1 bg-white p-0.5 rounded-full">
-            <ShieldCheck className="w-5 h-5 text-blue-600" />
+            <ShieldCheck className="w-5 h-5 text-red-600" />
           </div>
         </div>
         

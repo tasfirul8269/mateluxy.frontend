@@ -731,9 +731,9 @@ function FloatingActionButton({ label, onClick }) {
     <button
       onClick={onClick}
       className={cn(
-        "fixed bottom-8 right-8 flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full",
-        "shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-primary/90 hover:scale-105",
-        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        "fixed bottom-8 right-8 flex items-center gap-2 px-6 py-3 bg-red text-white rounded-full",
+        "shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-red/90 hover:scale-105",
+        "focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
       )}
     >
       <Plus size={20} />

@@ -27,7 +27,7 @@ export function AgentCard({ agent }) {
             </div>
             
             <div className="flex items-center">
-              <span className="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full text-xs font-medium">
+              <span className="bg-red-100 text-blue-800 px-2.5 py-0.5 rounded-full text-xs font-medium">
                 {agent.listings} listings
               </span>
             </div>
