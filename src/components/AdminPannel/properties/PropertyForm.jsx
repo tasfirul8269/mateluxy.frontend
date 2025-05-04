@@ -30,15 +30,15 @@ const basePropertySchema = {
   propertyDescription: z.string().min(20, "Description must be at least 20 characters"),
   propertyAddress: z.string().min(5, "Address is required"),
   propertyCountry: z.string().min(1, "Country is required"),
-  propertyState: z.string().min(1, "State is required"),
-  propertyZip: z.string().min(1, "ZIP code is required"),
+  propertyState: z.string().min(1, "State is required").refine(val => val !== "None", {
+    message: "Please select a valid state"
+  }), // 👈 Line 44  propertyZip: z.string().min(1, "ZIP code is required"),
   propertyFeaturedImage: z.string().min(1, "Featured image is required"),
   media: z.array(z.string()).optional(),
   
   propertyType: z.string().min(1, "Property type is required"),
   propertyPrice: z.coerce.number().positive("Price must be positive"),
-  brokerFee: z.coerce.number().min(0, "Broker fee cannot be negative"),
-  
+  brokerFee: z.coerce.number().min(1, "Broker fee must be at least 1"), 
   propertySize: z.coerce.number().positive("Size must be positive"),
   propertyRooms: z.coerce.number().int().positive("Number of rooms must be positive"),
   propertyBedrooms: z.coerce.number().int().positive("Number of bedrooms must be positive"),
@@ -49,8 +49,8 @@ const basePropertySchema = {
   agent: z.string().min(1, "Agent is required"),
   dldQrCode: z.string().min(1, "DLD QR code is required"),
   
-  latitude: z.coerce.number(),
-  longitude: z.coerce.number(),
+  latitude: z.coerce.number().refine(val => val !== 0, "Invalid coordinates"), 
+  longitude: z.coerce.number().refine(val => val !== 0, "Invalid coordinates"), 
   
   features: z.array(z.string()).default([]),
   amenities: z.array(z.string()).default([]),
@@ -535,9 +535,9 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
                     </FormControl>
                     <SelectContent>
                       {mockAgents.map((agent) => (
-                        <SelectItem key={agent.id} value={agent.id}>
-                          {agent.name}
-                        </SelectItem>
+                       <SelectItem key={agent.id} value={agent.name}> 
+                       {agent.name}
+                     </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
