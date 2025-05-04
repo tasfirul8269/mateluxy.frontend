@@ -34,7 +34,7 @@ const propertyApi = {
   // Create new property
   createProperty: async (propertyData) => {
     try {
-      const response = await fetch(`${API_URL}/properties/add-property`, {
+      const response = await fetch(`${API_URL}/properties`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const propertyApi = {
   // Update property
   updateProperty: async (id, propertyData) => {
     try {
-      const response = await fetch(`${API_URL}/properties/update-property/${id}`, {
+      const response = await fetch(`${API_URL}/properties/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const propertyApi = {
   // Delete property
   deleteProperty: async (id) => {
     try {
-      const response = await fetch(`${API_URL}/properties/delete-property/${id}`, {
+      const response = await fetch(`${API_URL}/properties/${id}`, {
         method: 'DELETE',
       });
 
