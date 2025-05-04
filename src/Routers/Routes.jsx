@@ -13,7 +13,6 @@ import OffPlanListingPage from "../pages/OffPlanProperties/OffPlanPropertyListin
 import AdminSIgnInPage from "../pages/AdminSIgnInPage/AdminSignInPage";
 import { ProtectedAdminRoute, PublicRoute } from "../pages/AdminPannel/ProtectedAdminRoute";
 import AdminPannelPage from "@/pages/AdminPannelPages/AdminPannel";
-import PropertiesPage from "../pages/AdminPannelPages/PropertiesPage";
 import AgentsPage from "@/pages/AdminPannelPages/AgentsPage";
 import AdminsPage from "@/pages/AdminPannelPages/AdminsPage";
 import { AgentProvider } from '@/components/AdminPannelAgents/context/AgentContext';
@@ -76,12 +75,9 @@ const router = createBrowserRouter([
 
                     {
                         index: true, // 👈 default path under /admin-pannel
-                        element: <Navigate to="properties" replace />
+                        element: <Navigate to="agents" replace />
                       },
-                    {
-                        path: "properties",
-                        element: <PropertiesPage></PropertiesPage>
-                    },
+                    
                     {
                         path: "agents",
                         element: <AgentProvider><AgentsPage /></AgentProvider>  
