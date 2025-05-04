@@ -3,7 +3,7 @@ import { Edit, Trash2, MapPin } from "lucide-react";
 
 export function PropertyCard({ property }) {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
+    <div className="bg-white rounded-[20px] border border-[#e6e6e6] overflow-hidden hover:shadow-md transition-shadow duration-300">
       <div className="relative h-48 overflow-hidden">
         <img 
           src={property.imageUrl} 
