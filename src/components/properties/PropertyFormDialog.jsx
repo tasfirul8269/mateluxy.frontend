@@ -3,8 +3,8 @@ import {
   Dialog,
   DialogContent,
 } from "@/components/AdminPannel/ui/dialog";
-import PropertyCategorySelector from "./PropertyCategorySelector";
-import PropertyForm from "./PropertyForm";
+import PropertyCategorySelector from "@/components/AdminPannel/properties/PropertyCategorySelector";
+import PropertyForm from "@/components/AdminPannel/properties/PropertyForm";
 
 const PropertyFormDialog = ({ isOpen, onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
