@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search, Bell, User, LogOut, Settings, X } from "lucide-react";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/AdminPannel/ui/dropdown-menu";
-import { 
-  Popover, 
-  PopoverContent, 
-  PopoverTrigger 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
 } from "@/components/AdminPannel/ui/popover";
 import { Button } from "@/components/AdminPannel/ui/button";
 import { toast } from "@/components/AdminPannel/ui/sonner";
@@ -63,6 +63,7 @@ const ADMIN_SUGGESTIONS = [
 ];
 
 export function Header({ title, searchPlaceholder, onSearch }) {
+  const [dynamicSuggestions, setDynamicSuggestions] = useState([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -70,7 +71,7 @@ export function Header({ title, searchPlaceholder, onSearch }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef(null);
   const location = useLocation();
-  
+
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const getSuggestions = () => {
@@ -115,13 +116,85 @@ export function Header({ title, searchPlaceholder, onSearch }) {
     setNotifications(prev => prev.filter(notif => notif.id !== id));
   };
 
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const fetchSuggestions = async () => {
+      if (!searchValue.trim()) {
+        setDynamicSuggestions([]);
+        return;
+      }
+
+      try {
+        let endpoint;
+        const path = location.pathname;
+
+        // Determine API endpoint based on current route
+        if (path === "/agents") {
+          endpoint = `${import.meta.env.VITE_API_URL
+            }/api/agents?search=${encodeURIComponent(searchValue)}`;
+        } else if (path === "/admins") {
+          endpoint = `${import.meta.env.VITE_API_URL
+            }/api/admins?search=${encodeURIComponent(searchValue)}`;
+        } else {
+          endpoint = `${import.meta.env.VITE_API_URL
+            }/api/properties?search=${encodeURIComponent(searchValue)}`;
+        }
+
+        const response = await fetch(endpoint, { signal });
+        if (!response.ok) throw new Error('Failed to fetch suggestions');
+        const data = await response.json();
+
+        // Transform API response to suggestion format
+        const suggestions = data.map((item) => {
+          if (path === "/agents") {
+            return {
+              id: item._id,
+              value: item.fullName,
+              type: "agent",
+              // Add more fields if needed
+            };
+          } else if (path === "/admins") {
+            return {
+              id: item._id,
+              value: item.fullName,
+              type: "admin",
+            };
+          } else {
+            return {
+              id: item._id,
+              value: item.title || item.name,
+              type: "property",
+            };
+          }
+        });
+
+        setDynamicSuggestions(suggestions);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Fetch error:", error);
+          toast.error("Failed to load suggestions");
+        }
+      }
+    };
+
+    const debounceTimer = setTimeout(fetchSuggestions, 300);
+    return () => {
+      clearTimeout(debounceTimer);
+      controller.abort();
+    };
+  }, [searchValue, location.pathname]);
+
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchInputRef.current && !searchInputRef.current.contains(e.target)) {
         setShowSuggestions(false);
       }
     };
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -144,18 +217,18 @@ export function Header({ title, searchPlaceholder, onSearch }) {
 
       <div className="flex items-center space-x-3 sm:space-x-6">
         <div className="relative">
-          <form 
+          <form
             onSubmit={handleSearchSubmit}
             className={cn(
               "relative flex items-center transition-all duration-300 bg-gray-100 rounded-full overflow-hidden",
-              isSearchFocused 
-                ? 'w-40 sm:w-64 md:w-80 ring-2 ring-red-500' 
+              isSearchFocused
+                ? 'w-40 sm:w-64 md:w-80 ring-2 ring-red-500'
                 : 'w-40 sm:w-48 hover:bg-gray-200'
             )}
           >
-            <Search 
-              size={18} 
-              className="absolute left-3 text-gray-500" 
+            <Search
+              size={18}
+              className="absolute left-3 text-gray-500"
             />
             <input
               ref={searchInputRef}
@@ -186,22 +259,24 @@ export function Header({ title, searchPlaceholder, onSearch }) {
 
           {showSuggestions && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 overflow-hidden z-50 animate-fade-in">
-              {filteredSuggestions.length > 0 ? (
+              {dynamicSuggestions.length > 0 ? (
                 <ul className="max-h-64 overflow-auto">
-                  {filteredSuggestions.map(suggestion => (
-                    <li 
+                  {dynamicSuggestions.map((suggestion) => (
+                    <li
                       key={suggestion.id}
                       onClick={() => handleSelectSuggestion(suggestion.value)}
                       className="px-4 py-2 hover:bg-red-50 cursor-pointer flex items-center justify-between"
                     >
                       <span>{suggestion.value}</span>
-                      <span className="text-xs text-gray-500 capitalize">{suggestion.type}</span>
+                      <span className="text-xs text-gray-500 capitalize">
+                        {suggestion.type}
+                      </span>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <div className="p-4 text-center text-gray-500">
-                  No suggestions found
+                  {searchValue ? "No suggestions found" : "Start typing to search"}
                 </div>
               )}
             </div>
@@ -221,9 +296,9 @@ export function Header({ title, searchPlaceholder, onSearch }) {
             <div className="flex items-center justify-between p-3 border-b border-gray-100">
               <h3 className="font-medium">Notifications</h3>
               {unreadCount > 0 && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={markAllAsRead}
                   className="text-sm font-normal h-8"
                 >
@@ -234,8 +309,8 @@ export function Header({ title, searchPlaceholder, onSearch }) {
             <div className="max-h-[300px] overflow-y-auto">
               {notifications.length > 0 ? (
                 notifications.map(notification => (
-                  <div 
-                    key={notification.id} 
+                  <div
+                    key={notification.id}
                     className={cn(
                       "p-3 border-b border-gray-100 flex items-start hover:bg-gray-50 transition-colors",
                       notification.read ? "opacity-70" : "bg-red-50/50"
@@ -244,8 +319,8 @@ export function Header({ title, searchPlaceholder, onSearch }) {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <h4 className="font-medium text-sm">{notification.title}</h4>
-                        <button 
-                          onClick={() => dismissNotification(notification.id)} 
+                        <button
+                          onClick={() => dismissNotification(notification.id)}
                           className="text-gray-400 hover:text-gray-600"
                         >
                           <X size={14} />
@@ -291,7 +366,7 @@ export function Header({ title, searchPlaceholder, onSearch }) {
               <span>Security</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
+            <DropdownMenuItem
               className="cursor-pointer text-red-600 focus:text-red-600"
               onClick={() => toast.success("Logout successful!")}
             >
