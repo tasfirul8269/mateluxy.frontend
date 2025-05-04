@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/AdminPannel/ui/dialog";
-import { PropertyCategorySelector } from "@/components/AdminPannel/properties/PropertyCategorySelector";
+import PropertyCategorySelector  from "@/components/AdminPannel/properties/PropertyCategorySelector";
 import { PropertyForm } from "@/components/AdminPannel/properties/PropertyForm";
 import { toast } from "sonner";
 import { propertyApi } from "@/services/api";

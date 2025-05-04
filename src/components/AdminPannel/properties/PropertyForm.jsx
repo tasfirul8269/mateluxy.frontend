@@ -23,7 +23,6 @@ import {
   SelectValue,
 } from "@/components/AdminPannel/ui/select";
 
-import { PropertyCategory } from "./PropertyCategorySelector";
 
 // Common schema fields for all property types
 const basePropertySchema = {

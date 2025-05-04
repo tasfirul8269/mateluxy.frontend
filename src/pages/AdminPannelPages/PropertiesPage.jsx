@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { PropertyCard } from "@/components/AdminPannel/properties/PropertyCard";
+import  PropertyCard  from "@/components/AdminPannel/properties/PropertyCard";
 import { FloatingActionButton } from "@/components/AdminPannel/ui/UIComponents";
 import {
   Pagination,
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/AdminPannel/ui/select";
 import { Slider } from "@/components/AdminPannel/ui/slider";
-import { PropertyFormDialog } from "@/components/properties/PropertyFormDialog";
+import  PropertyFormDialog  from "@/components/properties/PropertyFormDialog";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi } from "@/services/api";
 
