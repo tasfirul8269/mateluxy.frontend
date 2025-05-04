@@ -1,9 +1,9 @@
 import React from "react";
 import { Edit, Trash2, MapPin } from "lucide-react";
 
-export function PropertyCard({ property }) {
+const PropertyCard = ({ property }) => {
   return (
-    <div className="bg-white rounded-[20px] border border-[#e6e6e6] overflow-hidden hover:shadow-md transition-shadow duration-300">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
       <div className="relative h-48 overflow-hidden">
         <img 
           src={property.imageUrl} 
@@ -11,14 +11,13 @@ export function PropertyCard({ property }) {
           className="w-full h-full object-cover"
         />
         <div className="absolute top-3 left-3">
-          <span className={` 
-            text-xs font-semibold px-2.5 py-1 rounded-full 
+          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full 
             ${property.type === 'Rent' ? 'bg-green-100 text-green-800' : 
              property.type === 'Buy' ? 'bg-blue-100 text-blue-800' :
              property.type === 'Off Plan' ? 'bg-purple-100 text-purple-800' :
              property.type === 'Commercial for Rent' ? 'bg-amber-100 text-amber-800' :
              property.type === 'Commercial for Buy' ? 'bg-orange-100 text-orange-800' :
-             'bg-gray-100 text-gray-800'} 
+             'bg-gray-100 text-gray-800'}
           `}>
             {property.type}
           </span>
@@ -35,7 +34,7 @@ export function PropertyCard({ property }) {
       <div className="p-4">
         <h3 className="font-semibold text-lg text-gray-800 mb-1 truncate">{property.title}</h3>
         <p className="text-gray-500 text-sm mb-3 truncate">{property.address}</p>
-        <p className="font-bold text-red mb-3">{property.price}</p>
+        <p className="font-bold text-blue-600 mb-3">{property.price}</p>
         
         <div className="flex items-center justify-between text-sm text-gray-500">
           <div className="flex items-center">
@@ -56,4 +55,6 @@ export function PropertyCard({ property }) {
       </div>
     </div>
   );
-}
+};
+
+export default PropertyCard;
