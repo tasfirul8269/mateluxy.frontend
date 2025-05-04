@@ -535,7 +535,7 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
                     </FormControl>
                     <SelectContent>
                       {mockAgents.map((agent) => (
-                       <SelectItem key={agent.id} value={agent.name}> 
+                       <SelectItem key={agent.id} value={agent.id}> 
                        {agent.name}
                      </SelectItem>
                       ))}
