@@ -54,27 +54,37 @@ export function Sidebar() {
       <div className="p-4 flex items-center justify-between border-b border-gray-200">
         <AnimatePresence mode="wait">
           {expanded ? (
-            <motion.img
-            key="full-logo"
+            <motion.div
+            key="logo-combo"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            src= {logo} // Replace with your actual logo path
-            alt="MateLuxy Logo"
-            className="h-8 w-auto" // Adjust height/width as needed
-            />
+            transition={{ duration: 0.3 }}
+            className="flex justify-center items-center"
+          >
+            <img className="w-24" src={logo} alt="LOGO" />
+            <div className="ml-2">
+              <h3 className="text-2xl font-bold tracking-tight text-[#000000]">
+                MATELUXY
+              </h3>
+              <p className="text-lg uppercase tracking-widest text-black">
+                REAL ESTATE
+              </p>
+            </div>
+          </motion.div>
           ) : (
-            <motion.span
+            <motion.img
               key="short-logo"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="text-xl font-bold text-red-600 mx-auto"
+              src= {logo} // Replace with your actual logo path
+              alt="MateLuxy Logo"
+              className="h-8 w-auto" // Adjust height/width as needed
             >
               EC
-            </motion.span>
+            </motion.img>
           )}
         </AnimatePresence>
         <Button
