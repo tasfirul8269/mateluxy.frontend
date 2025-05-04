@@ -49,7 +49,7 @@ const PropertyFormDialog = ({ isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && resetAndClose()}>
-      <DialogContent className={`${!selectedCategory ? "sm:max-w-[500px]" : "sm:max-w-[700px] max-h-[90vh] overflow-y-auto"}`}>
+      <DialogContent className={`${!selectedCategory ? "bg-white sm:max-w-[500px]" : "bg-white sm:max-w-[700px] max-h-[90vh] overflow-y-auto"}`}>
         <DialogHeader>
           <DialogTitle>
             {selectedCategory ? `Add New ${selectedCategory} Property` : "Add New Property"}
