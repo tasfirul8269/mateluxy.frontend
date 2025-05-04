@@ -36,10 +36,8 @@ const propertyApi = {
     try {
       const response = await fetch(`${API_URL}/properties`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(propertyData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(propertyData)
       });
 
       if (!response.ok) {
@@ -92,6 +90,20 @@ const propertyApi = {
       throw error;
     }
   },
+
+   // Add this new method
+   getAgents: async () => {
+    try {
+      const response = await fetch(`${API_URL}/agents`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch agents');
+      }
+      return response.json();
+    } catch (error) {
+      console.error('Error fetching agents:', error);
+      throw error;
+    }
+  }
 };
 
 // Export API URL for convenience

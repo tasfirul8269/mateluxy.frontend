@@ -275,15 +275,14 @@ const PropertiesPage = () => {
       </div>
       
       <FloatingActionButton
-        label="Add Property"
-        onClick={handleAddProperty}
-      />
+  label="Add Property"
+  onClick={() => setIsFormDialogOpen(true)}
+/>
       
-      {/* Property Form Dialog */}
-      <PropertyFormDialog 
-        isOpen={isFormDialogOpen}
-        onClose={() => setIsFormDialogOpen(false)}
-      />
+     <PropertyFormDialog 
+  isOpen={isFormDialogOpen}
+  onClose={() => setIsFormDialogOpen(false)}
+/>
     </div>
   );
 };

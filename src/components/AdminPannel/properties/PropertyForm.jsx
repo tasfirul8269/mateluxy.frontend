@@ -22,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/AdminPannel/ui/select";
+import { useQueryClient } from '@tanstack/react-query';
+import { propertyApi } from '@/services/api';
 
 
 // Common schema fields for all property types
@@ -81,12 +83,11 @@ const commercialPropertySchema = z.object({
   commercialType: z.string().min(1, "Commercial type is required"),
 });
 
-// Mock agents data, replace with API call in a real implementation
-const mockAgents = [
-  { id: "1", name: "John Doe" },
-  { id: "2", name: "Jane Smith" },
-  { id: "3", name: "Ahmed Ali" },
-];
+const { data: agents = [], isLoading: agentsLoading, error: agentsError } = useQuery({
+  queryKey: ['agents'],
+  queryFn: propertyApi.getAgents,
+  staleTime: 1000 * 60 * 5, // 5 minutes cache
+});
 
 // Property types
 const propertyTypes = [
@@ -101,6 +102,8 @@ const commercialTypes = [
 ];
 
 export const PropertyForm = ({ category, onSubmit, onCancel }) => {
+  const queryClient = useQueryClient(); // Correct way to get the client
+
   // Select the appropriate schema based on category
   let formSchema;
   switch (category) {
@@ -158,11 +161,17 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
     },
   });
 
-  const handleSubmit = (values) => {
-    // Here you would typically make an API call
-    console.log("Form values:", values);
-    onSubmit(values);
-  };
+// Update handleSubmit
+const handleSubmit = async (values) => {
+  try {
+    await propertyApi.createProperty({ ...values, category });
+    queryClient.invalidateQueries(['properties']);
+    onCancel();
+  } catch (error) {
+    console.error("Error creating property:", error);
+  }
+};
+
 
   const isCommercial = category.includes("Commercial");
 
@@ -522,29 +531,43 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
             />
             
             <FormField
-              control={form.control}
-              name="agent"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Agent</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select agent" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {mockAgents.map((agent) => (
-                       <SelectItem key={agent.id} value={agent.name}> 
-                       {agent.name}
-                     </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+  control={form.control}
+  name="agent"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Agent</FormLabel>
+      <Select 
+        onValueChange={field.onChange} 
+        defaultValue={field.value}
+        disabled={agentsLoading}
+      >
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select agent" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          {agentsLoading && (
+            <SelectItem value="loading" disabled>
+              Loading agents...
+            </SelectItem>
+          )}
+          {agentsError && (
+            <SelectItem value="error" disabled>
+              Error loading agents
+            </SelectItem>
+          )}
+          {agents.map((agent) => (
+            <SelectItem key={agent._id} value={agent._id}>
+              {agent.fullName} ({agent.position})
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
