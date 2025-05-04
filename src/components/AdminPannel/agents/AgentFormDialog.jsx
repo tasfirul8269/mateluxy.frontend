@@ -63,8 +63,9 @@ export function AgentFormDialog({ open, onOpenChange, onAgentAdded }) {
     
     try {
       // Use the exact route path as defined in your Express router
-      const response = await fetch('/api/agents/add-agents', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/agents/add-agents`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

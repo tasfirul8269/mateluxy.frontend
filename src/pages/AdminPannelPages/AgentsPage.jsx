@@ -27,7 +27,7 @@ const AgentsPage = () => {
     const fetchAgents = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/agents');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/agents`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch agents');

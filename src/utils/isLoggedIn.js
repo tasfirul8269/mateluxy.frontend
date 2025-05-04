@@ -1,7 +1,7 @@
 // frontend/src/utils/isLoggedIn.js
 export const isLoggedIn = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/admin/check-auth', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/check-auth`, {
         method: 'GET',
         credentials: 'include', // Very important to send cookies
       });
