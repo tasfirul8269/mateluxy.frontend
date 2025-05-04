@@ -55,7 +55,7 @@ export function Sidebar() {
         <AnimatePresence mode="wait">
           {expanded ? (
             <motion.div
-            key="logo-combo"
+            key="full-logo"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -73,18 +73,17 @@ export function Sidebar() {
             </div>
           </motion.div>
           ) : (
-            <motion.img
-              key="short-logo"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              src= {logo} // Replace with your actual logo path
-              alt="MateLuxy Logo"
-              className="h-8 w-auto" // Adjust height/width as needed
-            >
-        
-            </motion.img>
+            <motion.div
+            key="short-logo"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex justify-center items-center"
+          >
+            <img className="w-10" src={logo} alt="LOGO" />
+          
+          </motion.div>
           )}
         </AnimatePresence>
         <Button
