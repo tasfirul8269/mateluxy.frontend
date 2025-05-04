@@ -4,6 +4,8 @@ import { Home, Users, Settings, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/AdminPannel/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo.png";
+
 
 const navItems = [
   {
@@ -53,7 +55,7 @@ export function Sidebar() {
       <div className="p-4 flex items-center justify-between border-b border-gray-200">
         <AnimatePresence mode="wait">
           {expanded ? (
-            <motion.span
+            <motion.img
               key="full-logo"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -61,8 +63,9 @@ export function Sidebar() {
               transition={{ duration: 0.2 }}
               className="text-xl font-bold text-red-600 whitespace-nowrap"
             >
-              EstateCompass
-            </motion.span>
+              <img className="w-24" src={logo} alt="LOGO" />
+
+            </motion.img>
           ) : (
             <motion.span
               key="short-logo"
