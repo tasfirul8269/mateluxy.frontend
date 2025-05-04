@@ -4,6 +4,7 @@ import { Home, Users, Settings, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/AdminPannel/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import logo  from "@/assets/logo.png"; // Adjust the path to your logo
 
 const navItems = [
   {
@@ -53,16 +54,16 @@ export function Sidebar() {
       <div className="p-4 flex items-center justify-between border-b border-gray-200">
         <AnimatePresence mode="wait">
           {expanded ? (
-            <motion.span
-              key="full-logo"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="text-xl font-bold text-red-600 whitespace-nowrap"
-            >
-              MateLuxy
-            </motion.span>
+            <motion.img
+            key="full-logo"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            src= {logo} // Replace with your actual logo path
+            alt="MateLuxy Logo"
+            className="h-8 w-auto" // Adjust height/width as needed
+            />
           ) : (
             <motion.span
               key="short-logo"
@@ -72,7 +73,7 @@ export function Sidebar() {
               transition={{ duration: 0.2 }}
               className="text-xl font-bold text-red-600 mx-auto"
             >
-              ML
+              EC
             </motion.span>
           )}
         </AnimatePresence>
