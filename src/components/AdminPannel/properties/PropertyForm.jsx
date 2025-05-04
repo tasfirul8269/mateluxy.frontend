@@ -26,6 +26,7 @@ import {
 
 // Common schema fields for all property types
 const basePropertySchema = {
+  
   propertyTitle: z.string().min(5, "Title must be at least 5 characters"),
   propertyDescription: z.string().min(20, "Description must be at least 20 characters"),
   propertyAddress: z.string().min(5, "Address is required"),
@@ -101,6 +102,42 @@ const commercialTypes = [
 ];
 
 export const PropertyForm = ({ category, onSubmit, onCancel }) => {
+  const [agents, setAgents] = useState([]);
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/agents`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch agents');
+        }
+        
+        const data = await response.json();
+        
+        // Transform data to match our frontend structure
+        const transformedAgents = data.map(agent => ({
+          id: agent._id,
+          name: agent.fullName,
+          role: agent.position,
+          email: agent.email,
+          phone: agent.contactNumber,
+          avatarUrl: agent.profileImage || `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? "men" : "women"}/${Math.floor(Math.random() * 100)}.jpg`,
+          listings: 0, // You might want to add this field to your backend model
+        }));
+        
+        setAgents(transformedAgents);
+        setFilteredAgents(transformedAgents);
+      } catch (error) {
+        console.error('Error fetching agents:', error);
+        toast.error('Failed to load agents. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchAgents();
+  }, []);
   // Select the appropriate schema based on category
   let formSchema;
   switch (category) {
@@ -534,8 +571,8 @@ export const PropertyForm = ({ category, onSubmit, onCancel }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {mockAgents.map((agent) => (
-                       <SelectItem key={agent.id} value={agent.id}> 
+                      {agents.map((agent) => (
+                       <SelectItem key={agent._id} value={agent.fullName}> 
                        {agent.name}
                      </SelectItem>
                       ))}
